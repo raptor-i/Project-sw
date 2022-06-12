@@ -4,7 +4,10 @@ import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import DummyData from "../util/dummydata";
 
+
+let Dummy_Data = DummyData();
 const AddProduct = () => {
 
   // useStates for each input box.
@@ -18,18 +21,6 @@ const AddProduct = () => {
   const [enteredPrice, SetEnteredPrice] = useState("");
   const [TypeName, setTypeName] = useState("default");
 
-  // data types for type switcher.
-  const data = [
-    {id : 0, name : "DVD"},
-    {id : 1, name : "Book"},
-    {id : 2, name : "Furniture"}
-  ]
-
-  
-
-  var config ={
-    headers : {"Content-Type" : "application/x-wwww-form-urlencoded"}
-  };
 
   // an useState for the form which will appear when selected an option through TypeSwitcher.
   const [TypeForm, SetTypeForm] = useState(<p></p>);
@@ -85,9 +76,9 @@ const AddProduct = () => {
           <br />
           <label className="LabelSize">Size (MB)</label>
           <input
-            id="#size"
+            name="size"
+            id="size"
             type="text"
-            className="inputDvd"
             defaultValue={enteredSize}
             onChange={SizeOnChange}
           ></input>
@@ -104,8 +95,8 @@ const AddProduct = () => {
           <br />
           <label className="LabelSize">Weight (Kg)</label>
           <input
-            id="#weight"
-            className="inputbook"
+            name="weight"
+            id="weight"
             defaultValue={enteredWeight}
             onChange={WeightOnChange}
           ></input>
@@ -122,24 +113,24 @@ const AddProduct = () => {
           <br />
           <label className="LabelSize">Height (CM)</label>
           <input
-            id="#height"
-            className="inputfurn"
+            name="height"
+            id="height"
             defaultValue={enteredHeight}
             onChange={HeightOnChange}
           ></input>
           <br />
           <label className="LabelSize">Width (CM) </label>
           <input
-            id="#width"
-            className="inputfurn"
+            name="width"
+            id="width"
             defaultValue={enteredWidth}
             onChange={WidthOnChange}
           ></input>
           <br />
           <label className="LabelSize">Lenght (CM)</label>
           <input
-            id="#lenght"
-            className="inputfurn"
+            id="lenght"
+            name="lenght"
             defaultValue={enteredLenght}
             onChange={LenghtOnChange}
           ></input>
@@ -149,21 +140,19 @@ const AddProduct = () => {
       );
   };
   
-  const Type = (Value) => {
-  
-      Value = Value.id;
+  const Type = (e) => {
 
+    let Value = e.target.value;
       // it sets useState depends on the chosen option
-      if (Value === 0) {
+      if (Value === "DVD") {
         SetTypeForm(dvdForm);
         setTypeName("dvd");
-        document.getElementById("#size");
       }
-      else if (Value === 2) {
+      else if (Value === "Furniture") {
         SetTypeForm(FurnForm);
         setTypeName("furniture");
       }
-      else if (Value === 1) {
+      else if (Value === "Book") {
         SetTypeForm(bookForm);
         setTypeName("book");
       }
@@ -269,33 +258,34 @@ const AddProduct = () => {
       {
         case "dvd":
           DataObj.Attribute = enteredSize;
+          Dummy_Data.push(DataObj);
           axios.post("http://localhost/php/products/Dvd.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
 
         case "book":
           DataObj.Attribute = enteredWeight;
-          axios.post("http://localhost:80/php/Products/Book.php",DataObj,config).then(Response => console.log(Response))
+          Dummy_Data.push(DataObj);
+          axios.post("http://localhost:80/php/Products/Book.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
 
         case "furniture":
-          DataObj.Attribute = enteredHeight + " " + enteredWidth + " " + enteredLenght
-          axios.post("http://localhost:80/php/Products/Furniture.php",DataObj,config).then(Response => console.log(Response))
+          DataObj.Attribute = enteredHeight + " " + enteredWidth + " " + enteredLenght;
+          Dummy_Data.push(DataObj);
+          axios.post("http://localhost:80/php/Products/Furniture.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
       }
 
       console.log(DataObj);
       navigate("/");
-      window.location.reload();
-      console.log("Form Submitted");
-      
+      //window.location.reload();
     } 
 
   return (
-    <div>
-      <form id="#product_form" onSubmit={FormSubmitHandler}>
+ 
+      <form name="product_form" id="product_form" onSubmit={FormSubmitHandler}>
         <h1 className="Header">Product Add</h1>
         <input
           type="button"
@@ -313,8 +303,8 @@ const AddProduct = () => {
           <label className="label">SKU</label>
           <input
             type="text"
-            className="inputfieldSKU"
-            id="#sku"
+            name="sku"
+            id="sku"
             value={enteredSku}
             onChange={SkuOnChange}
           />
@@ -322,8 +312,8 @@ const AddProduct = () => {
           <label className="label">Name</label>
           <input
             type="text"
-            className="inputfieldName"
-            id="#name"
+            name="name"
+            id="name"
             value={enteredName}
             onChange={NameOnChange}
           />
@@ -331,26 +321,23 @@ const AddProduct = () => {
           <label className="label">Price ($) </label>
           <input
             className="inputfieldPrice"
-            id="#price"
+            name="price"
+            id="price"
             value={enteredPrice}
             onChange={PriceOnChange}
           />
           <br />
-          <div className="typeSwitcher">
             <label className="label">Type Switcher</label>
-              <Combobox className="LBox"
-                data={data}
-                dataKey='id'
-                textField='name'
-                onChange={Type}
-                defaultValue={"Select an option"}
-              />
-          </div>
+              <select id="productType" onChange={Type}>
+                <option value="default">Select an option</option>
+                <option value="DVD" >DVD</option>
+                <option value="Book" >Book</option>
+                <option value="Furniture">Furniture</option>
+              </select>
         </div>
         {TypeForm}
         <hr className="line" />
       </form>
-    </div>
   );
 };
 

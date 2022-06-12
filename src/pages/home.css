@@ -22,7 +22,7 @@
     background-color: rgb(250, 171, 171);
   }
   
-  .AddBtn
+  #ADD
   {
       
       font-size: 21px;
@@ -32,7 +32,7 @@
       background-color: rgb(190, 252, 190);
   }
   
-  .AddBtn:hover 
+  #ADD:hover 
   {
     background-color: #3e8e41;
     cursor: pointer;
