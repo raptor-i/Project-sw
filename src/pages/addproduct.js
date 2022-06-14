@@ -127,10 +127,10 @@ const AddProduct = () => {
             onChange={WidthOnChange}
           ></input>
           <br />
-          <label className="LabelSize">Lenght (CM)</label>
+          <label className="LabelSize">Length (CM)</label>
           <input
-            id="lenght"
-            name="lenght"
+            id="length"
+            name="length"
             defaultValue={enteredLenght}
             onChange={LenghtOnChange}
           ></input>
@@ -259,21 +259,21 @@ const AddProduct = () => {
         case "dvd":
           DataObj.Attribute = enteredSize;
           Dummy_Data.push(DataObj);
-          axios.post("http://localhost/php/products/Dvd.php",DataObj).then(Response => console.log(Response))
+          axios.post("https://raptor-i.000webhostapp.com/php/products/Dvd.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
 
         case "book":
           DataObj.Attribute = enteredWeight;
           Dummy_Data.push(DataObj);
-          axios.post("http://localhost:80/php/Products/Book.php",DataObj).then(Response => console.log(Response))
+          axios.post("https://raptor-i.000webhostapp.com/php/Products/Book.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
 
         case "furniture":
           DataObj.Attribute = enteredHeight + " " + enteredWidth + " " + enteredLenght;
           Dummy_Data.push(DataObj);
-          axios.post("http://localhost:80/php/Products/Furniture.php",DataObj).then(Response => console.log(Response))
+          axios.post("https://raptor-i.000webhostapp.com/php/Products/Furniture.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
       }

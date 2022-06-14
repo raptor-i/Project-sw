@@ -6,11 +6,12 @@ const Product = (props) =>
 {
    
 // an useState for checkbox.
-const [isChecked, setIsChecked] = useState(true);
+const [isChecked, setIsChecked] = useState(false);
 
 // when an item selected by checkbox, it sends the data to a massdeleteitems function.
 const CheckBoxHandler =() =>
 {
+    console.log(isChecked);
     setIsChecked(!isChecked);
     MassDeleteItems(props.ID);
     
