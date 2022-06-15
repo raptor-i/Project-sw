@@ -7,12 +7,11 @@ import MassDeleteItems from '../util/massdelteitems';
 import DeleteFromDB from "../util/Delete-from-db";
 import DummyData from "../util/dummydata";
 
-// The array that will fill fake product data if there is no db connection.
-let Dummy_Data = DummyData();
+
 function Home() {
   
   // UseState flag for fetching data with useEffect from Database if any data gets delete or add.
-  const [fetchData, SetFetchData] = useState(1);
+  const [fetchData, SetFetchData] = useState(false);
   
   // a navigate instance for jumping to the /addproduct page.
   let navigate = useNavigate(); 
@@ -40,7 +39,7 @@ function Home() {
   useEffect(() => {fetch('https://raptor-i.000webhostapp.com/php/?action=getproducts', 
                 {method : "POST", action : "project"}
   ).then( res => res.json()).then(data => SetAllItems(data)).catch(error => console.log(error))}, 
-    [fetchData]
+    []
   )
 
   return (

@@ -259,7 +259,7 @@ const AddProduct = () => {
         case "dvd":
           DataObj.Attribute = enteredSize;
           Dummy_Data.push(DataObj);
-          axios.post("https://raptor-i.000webhostapp.com/php/products/Dvd.php",DataObj).then(Response => console.log(Response))
+          axios.post("https://raptor-i.000webhostapp.com/php/Products/Dvd.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
 
