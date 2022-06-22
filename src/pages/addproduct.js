@@ -5,9 +5,10 @@ import "react-widgets/styles.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DummyData from "../util/dummydata";
-
+import AllSkuNames from '../util/AllSkuNames';
 
 let Dummy_Data = DummyData();
+const AllSku = AllSkuNames();
 const AddProduct = () => {
 
   // useStates for each input box.
@@ -20,7 +21,6 @@ const AddProduct = () => {
   const [enteredName, SetEnteredName] = useState("");
   const [enteredPrice, SetEnteredPrice] = useState("");
   const [TypeName, setTypeName] = useState("default");
-
 
   // an useState for the form which will appear when selected an option through TypeSwitcher.
   const [TypeForm, SetTypeForm] = useState(<p></p>);
@@ -165,13 +165,18 @@ const AddProduct = () => {
 
   // this function handles validation when user tries to submit/add product. if it fails an alert message appears
   const validation = () => {
-    // Two flags for check
+    // three flags for check
     let EmptyBox = false;
     let invalidData = false;
-    
+    let SkuExist = false;
+
     // checks product's simple requirements. if any box is empty, flag gets set to true.
     if (enteredSku === "" ||enteredName === "" ||enteredPrice === "" || TypeName === "default")
       EmptyBox = true;
+
+    // checks if enteredSku is already exist in db. if it is Sku Exist gets set true;
+    if(AllSku.includes(enteredSku))
+      SkuExist = true;
 
     // This if statement converts the string enteredPrice to Float then converts again to String. Finally compares
     //first data and if there is any difference then it sets the invalidData flag.
@@ -213,7 +218,7 @@ const AddProduct = () => {
     }
 
     // Function finally returns two of flags.
-    return { IsEmpty : EmptyBox, IsNotDataType : invalidData};
+    return { IsEmpty : EmptyBox, IsNotDataType : invalidData, IsSkuExist : SkuExist};
   };
 
   // This function is called when save button clicked.
@@ -234,6 +239,12 @@ const AddProduct = () => {
       return;
     }
   
+    // calls alert when there is exist sku name given.
+    if(IsNotValid.IsSkuExist){
+      alert("This Sku name is already exist. Please set another name.");
+      return;
+    }
+
     return "Successed";
   };
 
@@ -259,21 +270,21 @@ const AddProduct = () => {
         case "dvd":
           DataObj.Attribute = enteredSize;
           Dummy_Data.push(DataObj);
-          axios.post("https://raptor-i.000webhostapp.com/php/Products/Dvd.php",DataObj).then(Response => console.log(Response))
+          axios.post("https://localhost/php/Products/Dvd.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
 
         case "book":
           DataObj.Attribute = enteredWeight;
           Dummy_Data.push(DataObj);
-          axios.post("https://raptor-i.000webhostapp.com/php/Products/Book.php",DataObj).then(Response => console.log(Response))
+          axios.post("https://localhost/php/Products/Book.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
 
         case "furniture":
           DataObj.Attribute = enteredHeight + " " + enteredWidth + " " + enteredLenght;
           Dummy_Data.push(DataObj);
-          axios.post("https://raptor-i.000webhostapp.com/php/Products/Furniture.php",DataObj).then(Response => console.log(Response))
+          axios.post("https://localhost/php/Products/Furniture.php",DataObj).then(Response => console.log(Response))
           .catch(error => console.log(error));
           break;
       }

@@ -4,8 +4,6 @@ import "./ProductFrame.css";
 import "./Product.js";
 
 const Products = (props) => {
-  if (props.items.length > 0) {
-  }
 
   return (
     <div className="Frame">

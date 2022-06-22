@@ -5,7 +5,7 @@ import {useNavigate } from 'react-router-dom';
 import Products from '../Product/Products';
 import MassDeleteItems from '../util/massdelteitems';
 import DeleteFromDB from "../util/Delete-from-db";
-import DummyData from "../util/dummydata";
+import AllSkuNames from '../util/AllSkuNames';
 
 
 function Home() {
@@ -19,6 +19,7 @@ function Home() {
   // useState for Product_array to add or delete some product. if there is no connection, it will filled up with
   //dump data.
   const [AllItems, SetAllItems] = useState([]);
+
 
   // it gets active when user clicks to Mass Delete button
   const DeleteBtn = () =>
@@ -34,13 +35,22 @@ function Home() {
     DeleteFromDB(items);
 
   };
-
+  
   // gets products from database -like api- then sets main menu products with data that comes from database.
-  useEffect(() => {fetch('https://raptor-i.000webhostapp.com/php/?action=getproducts', 
+  //https://raptor-i.000webhostapp.com/php/?action=getproducts
+  useEffect(() => {fetch('https://localhost/php/?action=getproducts', 
                 {method : "POST", action : "project"}
   ).then( res => res.json()).then(data => SetAllItems(data)).catch(error => console.log(error))}, 
     []
   )
+
+  // a instance to get all sku then transfer to AllSku.
+  const DatabaseSku = AllSkuNames();
+
+  // Foreach to add all sku names to DatabaseSku array.
+  if(DatabaseSku.length == 0)
+    AllItems.forEach(x => {DatabaseSku.push(x.Sku)});
+
 
   return (
     
