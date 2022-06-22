@@ -19,6 +19,6 @@ if (isset($postedData)) {
 
     $NewDvd = new DVD($postedData->SKU, $postedData->Name, $postedData->Price);
     $NewDvd->SetAttributeType($postedData->Attribute);
-    $db->AddData($NewDvd->GetSku(), $NewDvd->GetName(), $NewDvd->GetPrice(), $NewDvd->GetAttribute());
+    $product->AddData($NewDvd->GetSku(), $NewDvd->GetName(), $NewDvd->GetPrice(), $NewDvd->GetAttribute(), $db->getdb());
 
 }

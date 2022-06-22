@@ -20,6 +20,6 @@ if (isset($postedData)) {
 
     $NewFurn = new furniture($postedData->SKU, $postedData->Name, $postedData->Price);
     $NewFurn->SetAttributeType($postedData->Attribute);
-    $db->AddData($NewFurn->GetSku(), $NewFurn->GetName(), $NewFurn->GetPrice(), $NewFurn->GetAttribute());
-
+    $product->AddData($NewFurn->GetSku(), $NewFurn->GetName(), $NewFurn->GetPrice(), $NewFurn->GetAttribute(), $db->getdb());
+    
 }

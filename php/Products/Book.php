@@ -14,6 +14,5 @@ if (isset($postedData)) {
 
     $NewBook = new book($postedData->SKU, $postedData->Name, $postedData->Price);
     $NewBook->SetAttributeType($postedData->Attribute);
-    $db->AddData($NewBook->GetSku(), $NewBook->GetName(), $NewBook->GetPrice(), $NewBook->GetAttribute());
-
+    $product->AddData($NewBook->GetSku(), $NewBook->GetName(), $NewBook->GetPrice(), $NewBook->GetAttribute(), $db->getdb());
 }

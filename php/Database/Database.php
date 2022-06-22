@@ -25,43 +25,6 @@ class database
         }
     }
 
-    public function GetDatas()
-    {
-
-        $data = json_decode(file_get_contents("php://input", true));
-
-        if (isset($_GET['action'])) {
-            $action = $_GET['action'];
-            switch ($action) {
-                case 'getproducts':
-                    $query = $this->db->query("select * from project.products order by PrdID Asc")->fetchAll(PDO::FETCH_ASSOC);
-                    echo json_encode($query);
-                    break;
-            }
-        }
-    }
-
-    public function DeleteData($ID)
-    {
-        $prdid = 0;
-        for ($i = 0; $i < count($ID); $i++) {
-            $prdid = $ID[$i];
-            $this->db->query("delete from project.products where PrdID = $prdid ");
-        }
-        echo "sucessed + $ID";
-    }
-
-
-    public function AddData($SKU, $Name, $Price, $Attr)
-    {
-
-        $Price = intval($Price);
-        $sql = "Insert into project.products(Sku, Name, Price, Attribute) Values('$SKU','$Name','$Price','$Attr')";
-        $que = $this->db->prepare($sql);
-        $que->execute();
-
-    }
-
     public function getdb()
     {
         return $this->db;
